@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Casa do Salgado — Cardápio</title>
+<style>
+:root{--bg:#fff7e8;--card:#ffffff;--ink:#3a1d0c;--mute:#7d5a44;--red:#c8321e;--gold:#f2a516;--line:#f0dcc0;--ok:#1f8a4c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241209;--card:#34190c;--ink:#fff1dc;--mute:#d2aa86;--red:#ff6a4d;--gold:#ffbf3d;--line:#52301b;--ok:#4cd187}}
+:root[data-theme="dark"]{--bg:#241209;--card:#34190c;--ink:#fff1dc;--mute:#d2aa86;--red:#ff6a4d;--gold:#ffbf3d;--line:#52301b;--ok:#4cd187}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS",Verdana,sans-serif}
+header{text-align:center;padding:28px 16px 18px;background:linear-gradient(160deg,#c8321e,#8f1d10);color:#fff}
+header svg{width:92px;height:92px}
+h1{margin:6px 0 2px;font-family:Georgia,serif;font-size:1.9rem}
+header p{margin:0;opacity:.9;font-size:.95rem}
+main{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+h2{font-family:Georgia,serif;color:var(--red);font-size:1.25rem;margin:26px 0 10px;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:2px;background:var(--line)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:9px}
+.item .t{flex:1;min-width:0}
+.item b{display:block;font-size:1.02rem}
+.item small{color:var(--mute);font-size:.86rem}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.price{white-space:nowrap;font-weight:700;background:var(--gold);color:#3a1d0c;padding:4px 11px;border-radius:999px;font-size:.98rem}
+button{font:inherit;cursor:pointer}
+.buy{background:var(--red);color:#fff;border:0;border-radius:999px;padding:7px 16px;font-weight:700;font-size:.9rem}
+.buy:active{transform:scale(.96)}
+footer{text-align:center;color:var(--mute);font-size:.85rem;padding-bottom:24px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.ov.on{display:flex}
+.sheet{background:var(--card);color:var(--ink);width:100%;max-width:460px;max-height:94%;overflow-y:auto;border-radius:20px 20px 0 0;padding:20px 18px calc(22px + env(safe-area-inset-bottom,0px));text-align:center}
+@media (min-width:600px){.ov{align-items:center}.sheet{border-radius:20px}}
+.sheet h3{margin:0 0 2px;font-family:Georgia,serif;color:var(--red);font-size:1.3rem}
+.qty{display:flex;align-items:center;justify-content:center;gap:14px;margin:10px 0}
+.qty button{width:36px;height:36px;border-radius:50%;border:2px solid var(--red);background:transparent;color:var(--red);font-size:1.3rem;font-weight:700;line-height:1}
+.qty span{min-width:28px;font-size:1.2rem;font-weight:700}
+.total{font-size:1.5rem;font-weight:800;margin:4px 0 10px}
+#qr{display:inline-block;background:#fff;padding:10px;border-radius:12px;border:1px solid var(--line)}
+#qr img,#qr canvas{display:block}
+.k{font-size:.85rem;color:var(--mute);margin:10px 0 4px}
+.key{font-weight:700;font-size:1.05rem;letter-spacing:.3px}
+.cp{width:100%;font-size:.72rem;height:64px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:8px;resize:none;word-break:break-all}
+.row{display:flex;gap:8px;margin-top:10px}
+.row button{flex:1;border-radius:12px;padding:11px;font-weight:700;border:0}
+.copy{background:var(--ok);color:#fff}
+.close{background:var(--line);color:var(--ink)}
+.note{font-size:.8rem;color:var(--mute);margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+<svg viewBox="0 0 100 100" aria-label="Logo águia">
+<circle cx="50" cy="50" r="47" fill="#f2a516" stroke="#fff" stroke-width="3"/>
+<path d="M50 24 L58 34 L82 26 L70 46 L84 54 L62 58 L50 82 L38 58 L16 54 L30 46 L18 26 L42 34 Z" fill="#3a1d0c"/>
+<path d="M50 30 L56 40 L50 52 L44 40 Z" fill="#fff7e8"/>
+<path d="M50 38 L58 44 L50 49 Z" fill="#c8321e"/>
+<circle cx="46" cy="38" r="1.8" fill="#f2a516"/><circle cx="54" cy="38" r="1.8" fill="#f2a516"/>
+</svg>
+<h1>La Casa do Salgado</h1>
+<p>Cardápio digital · pague com Pix</p>
+</header>
+<main id="menu"></main>
+<footer>La Casa do Salgado · Bom apetite!</footer>
+
+<div class="ov" id="ov">
+<div class="sheet">
+<h3 id="mName"></h3>
+<small id="mDesc" style="color:var(--mute)"></small>
+<div class="qty"><button id="minus" aria-label="Menos">−</button><span id="q">1</span><button id="plus" aria-label="Mais">+</button></div>
+<div class="total" id="tot"></div>
+<div id="qr"></div>
+<div class="k">Escaneie o QR Code no app do seu banco ou use a chave Pix:</div>
+<div class="key">714.051.704-50</div>
+<div class="k">Pix copia e cola</div>
+<textarea class="cp" id="cp" readonly></textarea>
+<div class="row"><button class="copy" id="copy">Copiar código Pix</button><button class="close" id="close">Fechar</button></div>
+<div class="note">Depois de pagar, mostre o comprovante.</div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+var KEY="71405170450",NAME="LA CASA DO SALGADO",CITY="BRASIL";
+var DATA=[
+["Salgados",[["Copo de salgadinhos pequenos","300 ml",5],["Salgado grande","unidade",3.5]]],
+["Bebidas",[["Refrigerante","Coca-Cola ou Guaraná, copo",2]]],
+["Combos",[
+["Combo Clássico","1 salgado grande + 1 refrigerante",5],
+["Combo Copão","1 copo de salgadinhos (300 ml) + 1 refrigerante",6.5],
+["Combo Duplinha","2 salgados grandes",6.5],
+["Combo Galera","1 copo de salgadinhos (300 ml) + 2 refrigerantes",8.5],
+["Combo Muralha","1 copo de salgadinhos (300 ml) + 1 salgado grande",8],
+["Combo Completo","1 copo de salgadinhos (300 ml) + 1 salgado grande + 1 refrigerante",12]]]
+];
+function brl(v){return "R$ "+v.toFixed(2).replace(".",",")}
+function f(id,v){return id+("0"+v.length).slice(-2)+v}
+function crc(s){var c=0xFFFF;for(var i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(var j=0;j<8;j++){c=(c&0x8000)?((c<<1)^0x1021):(c<<1);c&=0xFFFF}}return ("000"+c.toString(16).toUpperCase()).slice(-4)}
+function pix(v){var p=f("00","01")+f("26",f("00","br.gov.bcb.pix")+f("01",KEY))+f("52","0000")+f("53","986")+f("54",v.toFixed(2))+f("58","BR")+f("59",NAME)+f("60",CITY)+f("62",f("05","***"))+"6304";return p+crc(p)}
+var cur=null,qty=1,qr=null;
+var menu=document.getElementById("menu");
+DATA.forEach(function(sec){
+var h=document.createElement("h2");h.textContent=sec[0];menu.appendChild(h);
+sec[1].forEach(function(it){
+var d=document.createElement("div");d.className="item";
+d.innerHTML='<div class="t"><b></b><small></small></div><div class="side"><span class="price"></span><button class="buy">Comprar</button></div>';
+d.querySelector("b").textContent=it[0];d.querySelector("small").textContent=it[1];
+d.querySelector(".price").textContent=brl(it[2]);
+d.querySelector(".buy").onclick=function(){open_(it)};
+menu.appendChild(d);
+});
+});
+function render(){
+var total=cur[2]*qty;
+document.getElementById("q").textContent=qty;
+document.getElementById("tot").textContent=brl(total);
+var code=pix(total);
+document.getElementById("cp").value=code;
+var box=document.getElementById("qr");box.innerHTML="";
+try{qr=new QRCode(box,{text:code,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){box.textContent="Use a chave Pix abaixo."}
+}
+function open_(it){cur=it;qty=1;document.getElementById("mName").textContent=it[0];document.getElementById("mDesc").textContent=it[1];document.getElementById("copy").textContent="Copiar código Pix";render();document.getElementById("ov").classList.add("on")}
+document.getElementById("plus").onclick=function(){if(qty<50){qty++;render()}};
+document.getElementById("minus").onclick=function(){if(qty>1){qty--;render()}};
+document.getElementById("close").onclick=function(){document.getElementById("ov").classList.remove("on")};
+document.getElementById("ov").onclick=function(e){if(e.target===this)this.classList.remove("on")};
+document.getElementById("copy").onclick=function(){
+var ta=document.getElementById("cp"),btn=this;
+function ok(){btn.textContent="Código copiado ✓"}
+function fb(){ta.focus();ta.select();try{document.execCommand("copy");ok()}catch(e){btn.textContent="Selecione e copie o código"}}
+try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(ok,fb)}else{fb()}}catch(e){fb()}
+};
+</script>
+</body>
+</html>
